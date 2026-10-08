@@ -1,0 +1,4 @@
+# Trained checkpoints are written here by Train/train_benchmark.py and
+# Train/train_simsplit.py, and read by the Interpretability scripts.
+# The files themselves are not tracked by git (see .gitignore); the published
+# checkpoints are archived on Zenodo.

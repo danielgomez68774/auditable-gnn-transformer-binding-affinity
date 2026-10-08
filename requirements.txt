@@ -1,0 +1,14 @@
+# PyTorch ecosystem (Install separately via PyTorch CUDA / Nightly index)
+# torch==2.11.0+cu128
+# torch-geometric==2.7.0
+# torch-scatter==2.1.2+pt211cu128
+
+rdkit==2026.3.1
+numpy==2.4.6
+scipy==1.17.1
+pandas==3.0.2
+scikit-learn==1.8.0
+matplotlib==3.10.9
+seaborn==0.13.2
+tqdm==4.67.3
+biopython==1.87

@@ -1,0 +1,8 @@
+conda create -n split_env -c bioconda -c conda-forge mmseqs2 biopython -y
+wget https://mmseqs.com/latest/mmseqs-linux-avx2.tar.gz
+ tar xvfz mmseqs-linux-avx2.tar.gz
+export PATH=$(pwd)/mmseqs/bin/:$PATH
+mmseqs version
+mmseqs createdb proteinas_refined.fasta db
+mmseqs cluster db db_clu tmp     --min-seq-id 0.3     -c 0.8     --cov-mode 0
+mmseqs createtsv db db db_clu clusters.tsv
