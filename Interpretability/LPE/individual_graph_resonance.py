@@ -6,7 +6,7 @@ from torch_geometric.loader import DataLoader
 from torch_geometric.data import Dataset
 from torch_geometric.nn import global_mean_pool
 from scipy.interpolate import make_interp_spline
-
+from pathlib import Path
 # Safe import for the smooth LOWESS trend line
 try:
     import statsmodels.api as sm
@@ -130,7 +130,7 @@ def main():
     attn_inter = attn_weights[mask_interfaz].detach().cpu().numpy()
 
     os.makedirs(RUTA_SALIDA, exist_ok=True)
-    path_lbl = PATH_MODELO_PT.replace(".pt","").split("\\")[-1]
+    path_lbl = Path(PATH_MODELO_PT).stem
 
     # =========================================================================
     # 📊 PLOT 1: ATTENTIONAL STRATIFICATION (Quantization Scatter)

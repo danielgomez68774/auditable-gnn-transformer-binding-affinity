@@ -370,8 +370,8 @@ if __name__ == '__main__':
     #   - Refined SIN Core-285  -> se divide en train/val
     #   - Core-285 (CASF-2016)  -> test FIJO, entero (comparable con SIGN)
     # -------------------------------------------------------------------
-    ruta_train_pool = os.path.join(base_dir, "Grafos_Corregidos_refined")   # Refined sin Core
-    ruta_test_core  = os.path.join(base_dir, "Grafos_CASF_core285")         # Core-285
+    ruta_train_pool = str(config.GRAFOS_REFINED)   # Refined sin Core
+    ruta_test_core  = str(config.GRAFOS_CASF_CORE285)  # Core-285
 
     pool_dataset = PDBbindDataset(root_dir=ruta_train_pool)   # train + val
     test_set     = PDBbindDataset(root_dir=ruta_test_core)    # test (Core-285 completo)

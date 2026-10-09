@@ -398,7 +398,7 @@ if __name__ == '__main__':
     # clustering MMseqs2 (identidad 30%, clusters enteros por conjunto).
     # El test son complejos del propio Refined, NO el CASF core.
     # -------------------------------------------------------------------
-    ruta_grafos = os.path.join(base_dir, "Grafos_Corregidos_refined")   # los 4407
+    ruta_grafos = str(config.GRAFOS_REFINED)    # los 4407
     dir_split   = str(config.SPLIT_DIR)             # listas del split
 
     train_ids = leer_lista_ids(os.path.join(dir_split, "train.txt"))

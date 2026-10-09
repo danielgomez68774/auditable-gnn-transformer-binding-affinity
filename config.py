@@ -40,6 +40,8 @@ GRAFOS_CROSSDOCKED_INDIVIDUAL = DATA_ROOT / "Graphs_CrossDocked_individual"
 
 # --- Raw datasets (only needed to RE-RUN preprocessing from scratch) ---
 PDBBIND_REFINED_RAW = DATA_ROOT / "PDBbind_v2020_refined"
+CROSS_DOCKED_RAW = DATA_ROOT / "downsampled_CrossDocked2020_v1.3"
+CSAR_RAW = DATA_ROOT / "CSAR_HiQ_NRC_set" / "CSAR_NRC_HiQ_Set"
 CASF_CORESET_RAW    = DATA_ROOT / "CASF-2016" / "coreset"
 INDEX_REFINED       = PDBBIND_REFINED_RAW / "refined-set" / "index" / "INDEX_refined_data.2020"
 

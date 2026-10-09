@@ -1,11 +1,15 @@
 # data/
 
-Heavy preprocessed graph datasets live here. They are **not** tracked by git
-(see `.gitignore`); download them from the Zenodo archive linked in the paper
-and extract the folders directly into this directory. All code resolves these
-paths through `config.py`, so nothing needs editing.
+Preprocessed 3D protein–ligand interaction graphs (PyTorch Geometric format) live
+here. They are **not** tracked by git (see `.gitignore`) and are **not** distributed
+on Zenodo. Instead, they are generated locally from the public datasets using the
+scripts in `Pre-processing/` (see the main README). All code resolves these paths
+through `config.py`, so nothing needs editing once the folders are in place.
 
-Expected folders (names must match exactly):
+**How to obtain them:** download the raw datasets from their original sources
+(PDBbind v2020, CASF-2016, CrossDocked2020, CSAR-HiQ — under their respective terms
+of use), place them where `config.py` expects them, and run the preprocessing
+scripts. This produces the following folders:
 
 | Folder | Used by |
 |---|---|
@@ -17,9 +21,7 @@ Expected folders (names must match exactly):
 | `Graphs_CrossDocked_massive_dynamic` | CrossDocked cross-dataset consistency |
 | `Graphs_CrossDocked_individual` | conformational sensitivity (pose stress) |
 
-To re-run preprocessing from scratch instead, place the raw datasets here
-(`PDBbind_v2020_refined/`, `CASF-2016/coreset/`) and run the scripts in
-`Pre-processing/`.
+You may keep the data elsewhere by setting the `BA_DATA_ROOT` environment variable.
 
-You may keep the data elsewhere by setting the `BA_DATA_ROOT` environment
-variable to that location.
+Note: the **trained model checkpoints** (not the graphs) are archived on Zenodo and
+go in `trained_models/` — see the main README.

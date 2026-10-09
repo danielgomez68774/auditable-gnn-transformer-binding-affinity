@@ -52,39 +52,47 @@ pip install -r requirements.txt
 ## 🗂️ Repository Structure
 
 ```text
-Github_final/
+├── config.py                     # Centralized project path resolution
 ├── Model/
 │   ├── __init__.py
-│   └── model.py                 # Core hybrid GNN-Transformer architecture
+│   └── model.py                  # Core hybrid GNN-Transformer architecture
 ├── Pre-processing/
-│   ├── PDBBind Refined 2020/
+│   ├── CASF-2016/
+│   │   ├── pre-processing-casf.py
+│   │   └── pre-processing-full-protein.py
+│   ├── CrossDocked/
+│   │   ├── pre-processing-crossdocked-masive.py
+│   │   └── pre-processing-docked.py
+│   ├── CSAR_Hi-Q/
+│   │   └── pre-processing-csar.py
+│   ├── PDBBind_Refined_2020/
 │   │   ├── diagnose_complexes.py
-│   │   └── pre-processing.py    # Converts PDB/MOL2 files to PyTorch Geometric graphs
+│   │   └── pre-processing.py     # Converts PDB/MOL2 files to PyTorch Geometric graphs
 │   └── split_proteins/
 │       ├── extract_sequences.py
-│       ├── mmseqs2_commands.txt # MMseqs2 commands for 30% sequence identity split
+│       ├── mmseqs2_commands.txt  # MMseqs2 commands for 30% sequence identity split
 │       ├── split_by_similarity.py
 │       ├── train.txt
 │       ├── val.txt
 │       └── test.txt
 ├── Train/
-│   ├── train_benchmark.py       # Training & evaluation on CASF-2016 benchmark (Protocol A)
-│   └── train_simsplit.py        # Training & evaluation on 30% sequence split (Protocol B)
+│   ├── train_benchmark.py        # Training & evaluation on CASF-2016 benchmark (Protocol A)
+│   └── train_simsplit.py         # Training & evaluation on 30% sequence split (Protocol B)
 └── Interpretability/
     ├── Molecular-Analysis/
-    │   ├── RL_multimodel.py    # Ligand Attentional Reconstruction (RL) metric
-    |   ├── dataset_bonds_analysis_v2.py
-    |   ├── RL-causal_analysis.py
-    |   ├── RL-causal-analysis-split.py
+    │   ├── RL_multimodel.py      # Ligand Attentional Reconstruction (RL) metric
     │   ├── RL_multimodel_split.py
     │   ├── RL_multimodel_ablations.py
-    │   ├── full_protein_analysis.py
-    │   └── generate_chimerax.py # Export attention B-factor files for ChimeraX
-    ├── Proximity/               # Distance response probes & contact zone analysis
-    ├── Angular/                 # Directional anisotropy & local coherence probes
-    ├── Chemistry/               # Chemical sensitivity & atomic descriptor perturbations
-    ├── LPE/                     # Spectral Laplacian positional encoding audits
-    └── Stress/                  # Conformational sensitivity & pose noise stress tests
+    │   ├── RL_causal_analysis.py
+    │   ├── RL_causal_analysis_split.py
+    │   ├── dataset_bonds_analysis_v2.py
+    │   ├── generate_chimera_full_protein.py
+    │   └── generate_chimerax.py  # Export attention B-factor files for ChimeraX
+    ├── Proximity/                # Distance response probes & contact zone analysis
+    ├── Angular/                  # Directional anisotropy & local coherence probes
+    ├── Chemistry/                # Chemical sensitivity & atomic descriptor perturbations
+    ├── LPE/                      # Spectral Laplacian positional encoding audits
+    └── Stress/                   # Conformational sensitivity & pose noise stress tests
 ```
 
 ---
@@ -95,8 +103,8 @@ All paths are centralized in **`config.py`** at the repository root and derived
 from the repo location, so **no script contains a machine-specific path** and
 nothing is read from outside the repository.
 
-- Preprocessed graphs are expected in `data/` (download from Zenodo — see `data/README.md`).
-- Training writes checkpoints to `trained_models/`.
+- Preprocessed graphs are expected in `data/`; they are generated from the public datasets with the preprocessing scripts (see below and `data/README.md`).
+- Training writes checkpoints to `trained_models/`; the checkpoints used in the paper can be downloaded from Zenodo.
 - Figures, CSVs and logs are written to `outputs/`.
 
 To keep the heavy data elsewhere, set environment variables (no code changes):
@@ -110,11 +118,11 @@ Scripts can be run from any folder; each one locates `config.py` automatically.
 
 ## 🔄 Pre-processing & Data Preparation
 
-1. **Download Datasets**:
-   - **PDBbind v2020 (General & Refined sets)**: [https://www.pdbbind-plus.org.cn/download](https://www.pdbbind-plus.org.cn/download)
-   - **CASF-2016 Benchmark (Core set)**: [https://www.pdbbind-plus.org.cn/casf](https://www.pdbbind-plus.org.cn/casf)
-   - **CrossDocked2020**: [https://bits.csb.pitt.edu/files/crossdock2020/](https://bits.csb.pitt.edu/files/crossdock2020/)
-   - **CSAR-HiQ NRC Set**: [Dropbox Package](https://www.dropbox.com/scl/fo/8u4xohkdihsvv2vn0b8fq/AMTKwP65D9J0Ye_HAAsOEEg/CSAR_HiQ_NRC_set.tar.gz?rlkey=19oh2ml6abdttfw2ugt2cowhd&e=1&dl=0)
+1. **Download Datasets** (from their original sources, under their respective terms of use; the datasets are **not** redistributed in this repository):
+   - **PDBbind v2020 (General & Refined sets)**: http://www.pdbbind.org.cn/
+   - **CASF-2016 Benchmark (Core set)**: distributed with PDBbind
+   - **CrossDocked2020**: https://bits.csb.pitt.edu/files/crossdock2020/
+   - **CSAR-HiQ NRC Set**: available from the CSAR benchmark repository
 
 2. **Graph Conversion**:
    Run graph preprocessing to compute atomic features, dynamic $4.5\,\text{Å}$ edge cutoffs, and 15-eigenvector LPE signatures:
@@ -129,6 +137,11 @@ Scripts can be run from any folder; each one locates `config.py` automatically.
    # Execute MMseqs2 commands listed in Pre-processing/split_proteins/mmseqs2_commands.txt
    python Pre-processing/split_proteins/split_by_similarity.py
    ```
+4. **Reproducing results without retraining** (optional):
+   The trained checkpoints for all eight seeds are archived on Zenodo
+   (https://doi.org/<ZENODO-DOI>). Download and extract them into `trained_models/`
+   to run the evaluation and interpretability analyses directly, without repeating
+   the preprocessing and training steps above.
 
 ---
 
