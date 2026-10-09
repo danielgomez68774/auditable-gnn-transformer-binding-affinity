@@ -22,7 +22,7 @@ This project was developed and tested using a preview/preview-capable PyTorch bu
 ### 1. Create Virtual Environment
 ```bash
 # Clone the repository
-git clone [https://github.com/USER/REPO.git](https://github.com/USER/REPO.git)
+git clone https://github.com/danielgomez68774/auditable-gnn-transformer-binding-affinity.git
 cd REPO
 
 # Create virtual environment
@@ -139,7 +139,7 @@ Scripts can be run from any folder; each one locates `config.py` automatically.
    ```
 4. **Reproducing results without retraining** (optional):
    The trained checkpoints for all eight seeds are archived on Zenodo
-   (https://doi.org/<ZENODO-DOI>). Download and extract them into `trained_models/`
+   (https://doi.org/10.5281/zenodo.23253453). Download and extract them into `trained_models/`
    to run the evaluation and interpretability analyses directly, without repeating
    the preprocessing and training steps above.
 
